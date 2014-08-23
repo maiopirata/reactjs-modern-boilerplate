@@ -1,30 +1,36 @@
 'use strict';
 
-var BaseStore = require('./BaseStore');
+var Fluxxor   = require('fluxxor');
+var constants = require('../constants');
 
-class CommentsStore extends BaseStore {
-    constructor() {
-        super();
+var CommentsStore = Fluxxor.createStore({
+    initialize() {
         this.comments = [];
-    }
+
+        this.bindActions(
+            constants.ACCEPT_COMMENT,       this.handleAcceptComment,
+            constants.REJECT_COMMENT,       this.handleRejectComment,
+            constants.RECEIVE_ALL_COMMENTS, this.handleReceiveAllComments
+        );
+    },
 
     getComments() {
         return this.comments;
+    },
+
+    handleAcceptComment() {
+
+    },
+
+    handleRejectComment() {
+
+    },
+
+    handleReceiveAllComments(comments) {
+        this.comments = comments;
+        this.emit('change');
     }
-
-    ACCEPT_COMMENT() {
-
-    }
-
-    REJECT_COMMENT() {
-
-    }
-
-    RECEIVE_ALL_COMMENTS(action) {
-        this.comments = action.comments;
-        this.emitChange();
-    }
-}
+});
 
 
-module.exports = new CommentsStore();
+module.exports = CommentsStore;

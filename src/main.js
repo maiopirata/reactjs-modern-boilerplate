@@ -4,16 +4,15 @@ require('./assets');
 var React = window.React = require('react');
 var App   = require('./App.jsx');
 var $     = require('jquery');
-
-var serverActionCreators = require('./actions/serverActionCreators');
+var Fluxxor = require('fluxxor');
 
 $(document).ready(function() {
-    React.renderComponent(App({}), document.getElementById('content'));
+    var flux = new Fluxxor.Flux(require('./stores'), require('./actions'));
+
+    React.renderComponent(App({flux: flux}), document.getElementById('content'));
 
     setTimeout(() => {
-        console.log('LOADING COMMENTS');
-
-        serverActionCreators.receiveAllComments([
+        flux.actions.receiveAllComments([
             {
                 id: 1232,
                 text: "hello world",
@@ -28,6 +27,7 @@ $(document).ready(function() {
                 status: 'PENDING'
             }
         ]);
+
     },2000);
 });
 

@@ -4,14 +4,15 @@
 'use strict';
 
 var React = require('react');
-
-var commentsStore = require('../stores/commentsStore');
+var FluxMixin = require('fluxxor').FluxMixin(React);
+var StoreWatchMixin = require('fluxxor').StoreWatchMixin;
 
 var Row           = require('react-bootstrap/Row');
 var Col           = require('react-bootstrap/Col');
 var CommentsList  = require('../components/CommentsList.jsx');
 
 var CommentsPage = React.createClass({
+    mixins: [ FluxMixin, StoreWatchMixin('comments') ],
     render() {
         return (
             <div className='CommentsPage'>
@@ -29,25 +30,11 @@ var CommentsPage = React.createClass({
         );
     },
 
-    getInitialState() {
-        return this.getStateFromStores();
-    },
+    getStateFromFlux() {
+        var flux = this.getFlux();
 
-    componentDidMount() {
-        commentsStore.addChangeListener(this._onChange);
-    },
-
-    componentWillUnmount() {
-        commentsStore.removeChangeListener(this._onChange);
-    },
-
-    _onChange() {
-        this.setState(this.getStateFromStores());
-    },
-
-    getStateFromStores() {
         return {
-            comments: commentsStore.getComments()
+            comments: flux.store('comments').getComments()
         };
     }
 });

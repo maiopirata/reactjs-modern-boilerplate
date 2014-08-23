@@ -16,18 +16,18 @@ var AnonLayout = require('./layouts/AnonLayout.jsx');
 var LoginPage    = require('./pages/LoginPage.jsx');
 var CommentsPage = require('./pages/CommentsPage.jsx');
 
-
-
 var App = React.createClass({
     render() {
+        var flux = this.props.flux;
+
         return(
             <Routes>
-                <Route handler={AnonLayout}>
-                    <Route name='login' handler={LoginPage} />
+                <Route handler={AnonLayout} flux={flux}>
+                    <Route name='login' handler={LoginPage} flux={flux} />
                 </Route>
 
-                <Route handler={MainLayout}>
-                    <Route name='comments' handler={CommentsPage} />
+                <Route handler={MainLayout} flux={flux}>
+                    <Route name='comments' handler={CommentsPage} flux={flux} />
                 </Route>
             </Routes>
         );

@@ -1,0 +1,7 @@
+'use strict';
+
+module.exports = {
+    RECEIVE_ALL_COMMENTS: 'RECEIVE_ALL_COMMENTS',
+    COMMENT_REJECT: 'COMMENT_REJECT',
+    COMMENT_ACCEPT: 'COMMENT_ACCEPT'
+};
